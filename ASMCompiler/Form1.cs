@@ -8,8 +8,10 @@ using System.Drawing;
 using System.Text;
 using ASMEngine;
 using System.Windows.Forms;
+using SimASM;
 
-namespace SimASM
+namespace ASMCompiler
+
 {
     public partial class Form1 : Form
     {

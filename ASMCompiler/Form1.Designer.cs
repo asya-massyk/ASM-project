@@ -1,4 +1,4 @@
-namespace SimASM
+namespace ASMCompiler
 {
     partial class Form1
     {
