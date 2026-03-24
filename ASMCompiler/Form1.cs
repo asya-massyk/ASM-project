@@ -13,7 +13,7 @@ using SimASM;
 namespace ASMCompiler
 
 {
-    public partial class Form1 : Form
+    partial class Form1 : Form
     {
         public Form1()
         {
@@ -35,9 +35,16 @@ namespace ASMCompiler
             }
 
             sourceFilename = Application.StartupPath + "\\source\\ex02_com.asm";
-            StreamReader file = new StreamReader(sourceFilename);
-            CodeSource.Text = file.ReadToEnd();
-            file.Close();
+            if (System.IO.File.Exists(sourceFilename))
+            {
+                StreamReader file = new StreamReader(sourceFilename);
+                CodeSource.Text = file.ReadToEnd();
+                file.Close();
+            }
+            else
+            {
+                CodeSource.Text = "; Стартовий файл не знайдено. Можете писати код тут.";
+            }
             tabPage3.Text = sourceFilename.Substring(sourceFilename.LastIndexOf("\\") + 1);
         }
 
@@ -57,7 +64,7 @@ namespace ASMCompiler
             if (cmdProcess != null)
                 cmdProcess.Close();
             ProcessStartInfo info = new ProcessStartInfo("cmd.exe");
-            info.Arguments = "/C" + binFilename;
+            info.Arguments = "/C " + binFilename;
             info.CreateNoWindow = true;
             info.ErrorDialog = false;
             info.RedirectStandardError = true;

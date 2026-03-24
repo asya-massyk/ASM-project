@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using ASMCompiler;
 
-namespace SimASM
+namespace ASMCompiler
 {
     static class Program
     {
