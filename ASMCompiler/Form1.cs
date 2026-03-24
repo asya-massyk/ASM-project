@@ -93,7 +93,82 @@ namespace ASMCompiler
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            run();            
+            //run();            
+            RunInDOSBox();
+        }
+
+        // 1. Метод автоматичного пошуку DOSBox
+        private string FindDOSBox()
+        {
+            string[] basePaths = {
+        Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+        Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)
+    };
+
+            foreach (string basePath in basePaths)
+            {
+                if (System.IO.Directory.Exists(basePath))
+                {
+                    string[] dosboxDirs = System.IO.Directory.GetDirectories(basePath, "DOSBox*");
+                    foreach (string dir in dosboxDirs)
+                    {
+                        string exePath = System.IO.Path.Combine(dir, "DOSBox.exe");
+                        if (System.IO.File.Exists(exePath))
+                            return exePath; // Знайшли шлях
+                    }
+                }
+            }
+
+            string localPath = System.IO.Path.Combine(Application.StartupPath, "DOSBox.exe");
+            if (System.IO.File.Exists(localPath))
+                return localPath;
+
+            return null;
+        }
+
+        // 2. Новий метод спеціально для запуску через DOSBox
+        private void RunInDOSBox()
+        {
+            richTextBox1.Text = "";
+
+            // Перевіряємо, чи є вже зібраний файл, якщо ні - компілюємо
+            if (binFilename == null)
+                build();
+
+            if (binFilename == null) return; // Якщо збірка впала, відміна
+
+            string dosboxPath = FindDOSBox();
+
+            if (dosboxPath == null)
+            {
+                richTextBox1.Text = "Помилка: DOSBox не знайдено на комп'ютері!\nВстановіть його у Program Files.";
+                return;
+            }
+
+            string workDir = System.IO.Path.GetDirectoryName(binFilename);
+            string exeName = System.IO.Path.GetFileName(binFilename);
+
+            try
+            {
+                // Формуємо команди: монтуємо диск C, переходимо на нього, запускаємо файл і чекаємо
+                string arguments = $"-c \"mount c \\\"{workDir}\\\"\" -c \"c:\" -c \"{exeName}\"";
+
+                ProcessStartInfo info = new ProcessStartInfo(dosboxPath);
+                info.Arguments = arguments;
+                info.CreateNoWindow = false;
+                info.UseShellExecute = false;
+
+                Process dosboxProcess = new Process();
+                dosboxProcess.StartInfo = info;
+                dosboxProcess.Start();
+
+                richTextBox1.Text = $"Запущено у DOSBox!\nЕмулятор знайдено за шляхом:\n{dosboxPath}";
+                tabControl1.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                richTextBox1.Text = "Критична помилка запуску DOSBox:\n" + ex.Message;
+            }
         }
 
         void ErrorBeginRead()

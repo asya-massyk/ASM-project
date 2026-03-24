@@ -47,7 +47,7 @@ namespace ASMEngine
                 if (CodeLine != "")
                     break;
             }
-            if (CodeLine == "")
+            if (CodeLine == "") 
                 throw CompileError.WrongOperatorFormat(Name(), Line);
             length = CodeLine.Length / 8;
             if (Op1 is Address)

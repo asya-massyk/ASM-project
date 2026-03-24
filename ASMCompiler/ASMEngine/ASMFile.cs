@@ -175,6 +175,8 @@ namespace ASMEngine
         }
         public void BuildToFile(string filename)
         {
+            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(filename));
+
             FileStream output = new FileStream(filename, FileMode.Create);
             BinaryWriter file = new BinaryWriter(output);
             string all = "";
