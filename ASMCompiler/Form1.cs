@@ -281,7 +281,7 @@ namespace ASMCompiler
         private void button3_Click(object sender, EventArgs e)
         {
             binFilename = null;
-            run();            
+            RunInDOSBox();            
         }
         private void save()
         {
