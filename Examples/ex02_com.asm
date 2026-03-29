@@ -1,5 +1,5 @@
 		ORG	100H
-BEGIN:		JMP	FIRSTCMfff
+BEGIN:		JMP	FIRSTCM
 PV1			DB	"Enter first number : $"
 PV2			DB	"Enter second number : $"
 PV3			DB	"Enter third number : $"

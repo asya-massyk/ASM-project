@@ -34,7 +34,8 @@ namespace ASMEngine
         }
         public string GetOffset(string name, int offset, int bytes)
         {
-            if (!data.ContainsKey(name))
+            string upperName = name.ToUpper();
+            if (!data.ContainsKey(upperName))
                 throw CompileError.VariableNotDefined(name, -1);
             string s = data[name.ToUpper()];
             return Convertors.DecimalToBase(Convertors.TryNegative(Convertors.ToNumber(s) + offset, bytes), 2);

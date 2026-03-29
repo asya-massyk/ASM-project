@@ -58,7 +58,7 @@ namespace ASMEngine.OperatorsLib
 
         protected override void initFormats()
         {
-            RegistredFormats.Add(new Format(OperandType.RegisterAX, OperandType.Register, "1001 0 reg"));
+            //RegistredFormats.Add(new Format(OperandType.RegisterAX, OperandType.Register, "1001 0 reg"));
             RegistredFormats.Add(new Format(OperandType.RegisterOrMemory, OperandType.Register, "1000 011w mod reg r/m"));
             RegistredFormats.Add(new Format(OperandType.Register, OperandType.RegisterOrMemory, "1000 011w mod reg r/m"));
             
